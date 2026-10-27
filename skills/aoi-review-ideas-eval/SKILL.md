@@ -1,9 +1,9 @@
 ---
-name: aoi-evaluate-idea-review
+name: aoi-review-ideas-eval
 description: Evaluate AOI retrospective reviews for reproducible paper ROI, original-forecast fidelity, unbiased cohorts, and defensible learnings.
 ---
 
-# aoi-evaluate-idea-review
+# aoi-review-ideas-eval
 
 Read [the research contract](../../docs/research-contract.md), especially the evaluation protocol. Obtain the frozen task output, raw sources, and relevant prior records. Audit the following requirements and produce an evidence-linked verdict; do not merely grade the performer’s summary.
 

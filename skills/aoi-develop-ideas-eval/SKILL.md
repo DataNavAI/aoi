@@ -1,9 +1,9 @@
 ---
-name: aoi-evaluate-idea-development
+name: aoi-develop-ideas-eval
 description: Evaluate new AOI investment ideas for source quality, falsifiability, counterevidence, equity exposure, and return-estimate integrity.
 ---
 
-# aoi-evaluate-idea-development
+# aoi-develop-ideas-eval
 
 Read [the research contract](../../docs/research-contract.md), especially the evaluation protocol. Obtain the frozen task output, raw sources, and relevant prior records. Audit the following requirements and produce an evidence-linked verdict; do not merely grade the performer’s summary.
 

@@ -1,0 +1,33 @@
+---
+name: skill-trainer
+description: Improve a task skill through repeated task-subagent runs and independent evaluation-subagent runs until the paired evaluator passes the output. Use when asked to train or iterate on a skill pair.
+---
+
+# Skill Trainer
+
+Train a pair `<task-skill>` and `<task-skill>-eval` against a realistic user task. The parent coordinates and edits the task skill; separate subagents perform and evaluate. Creating or editing this trainer alone does not start training.
+
+## Establish the training case
+
+Resolve the task skill and paired evaluator paths, read both and their dependencies, and inspect applicable repository instructions and existing changes. Use the user's task and raw inputs; if no task is provided, derive a representative case from the skill's intended use. Request clarification only when necessary inputs cannot be inferred or prepared. Record the task, acceptance criteria, source cutoff, allowed tools/side effects, and any user budget. Preserve these throughout the loop so improvement is comparable.
+
+Create an isolated training directory outside the source repository, or in an explicitly ignored runtime directory. Keep input fixtures read-only and separate from outputs. Save the original skill versions and dependency hashes, task prompt, fixture provenance, and a run manifest. Resolve relative links by retaining the skill's dependency layout. Clearly label synthetic fixtures; they cannot establish current market facts or production delivery. Do not touch unrelated user edits.
+
+For tasks with external effects, use a sandbox/test account or declared dry-run boundary unless the user authorized those exact effects. Do not repeatedly send emails, trade, publish, or alter live records to obtain a pass. If the evaluator requires production evidence unavailable in the authorized test boundary, report that check blocked rather than weakening it. Offline fixture testing must be explicitly distinguished from a live research run.
+
+## Iterate until pass
+
+1. **Perform.** Spawn a fresh task subagent with `fork_turns="none"`. Supply the task skill's absolute path, the original request, raw inputs, cutoff, output directory, dependencies, and permitted operations. Tell it to read the skill and produce the actual deliverable and a source/calculation manifest. It must not edit the skill, evaluator, or inputs. Do not give it prior outputs, evaluator reports, or case-specific answers: improvements must travel through the task skill. Use a new output directory for every iteration.
+2. **Freeze.** Wait for task completion. Inspect deliverable existence and freeze its files with hashes; include relevant tool receipts or logs. A subagent's claim that work passed is not an evaluation. A failed task run must remain recorded and must not be replaced by the parent's manually repaired output. If no deliverable exists, freeze the failure logs instead and have the evaluator assess the failed attempt where its rubric permits; otherwise record the iteration incomplete. Correct an evidenced task-skill defect and rerun, or report an environmental blocker. Missing output can never pass.
+3. **Evaluate.** Spawn a different fresh evaluation subagent with `fork_turns="none"`. Supply the paired evaluator's path and dependencies, original task/criteria, raw inputs and source access, and the frozen output/manifest. It may read artifacts and use permitted read-only checks, but must not edit task output, skills, inputs, or external state. Do not disclose the intended answer, training hypothesis, previous verdicts, or the performer's self-assessment as evidence. Ask for the evaluator's required verdict plus artifact hashes, criterion-level evidence, failures, and actionable findings in a separate evaluation file. If its format differs, preserve it and map its verdict explicitly to pass/revise/blocked.
+4. **Interpret.** Verify the report targets the exact output hashes and all required checks. A pass is valid only if all applicable checks passed without unverified required evidence. If the evaluator's result is ambiguous or unsupported, have it complete the evidence; never reinterpret a failure as a pass. Check original hashes again after evaluation to detect mutation.
+5. **Improve.** For a revise verdict, trace findings to a missing or misleading task instruction, reusable resource, or tool workflow. Make the smallest generalizable change to the task skill or its owned resources that addresses the observed failure. Record finding → change → expected behavioral effect. Do not embed fixture answers, patch generated outputs, remove requirements, change inputs, or relax the evaluator to force a pass. If the evaluator itself is defective, document the evidence and seek a separately authorized evaluator correction; do not silently tune both sides of the gate.
+6. **Repeat.** Validate edited skill structure, references, and any changed executable resources. Start again at Perform with a fresh task subagent using the revised skill and original inputs. Continue until an actual output receives a verified pass. When the edit affects behavior beyond this case, rerun relevant available regression cases before claiming broader reliability; one passing case establishes only that case.
+
+Use available subagent orchestration (for example `collaboration.spawn_agent`) and wait for completed artifacts; messages between parent and its subagents do not require creating user-facing chats. Run task then evaluation sequentially because the latter depends on frozen output. Do not substitute parent self-evaluation when subagents are unavailable: report that training is blocked.
+
+## Stop and report honestly
+
+A verified pass completes training. A user interruption/budget limit, missing authorization/data/tool access, or repeated unchanged failure without an actionable skill improvement may prevent completion. Preserve progress and report `blocked` or `incomplete`, the latest verdict, and what is needed to resume; never label a cap or stalled loop a pass. Do not introduce an arbitrary iteration cap when the user requested iteration until pass. Respect any explicit user limits and report progress during long runs.
+
+Return: task/evaluator paths, tested task and scope, iterations and verdicts, final task-skill diff summary, changed dependency hashes, final output/evaluation paths and hashes, regression results if applicable, and remaining limits. Retain each iteration's task-skill snapshot, prompt, outputs, evaluation, and changes in the training directory. Leave source changes reviewable; commit or publish only when authorized by the surrounding task.

@@ -1,9 +1,9 @@
 ---
-name: aoi-evaluate-daily-report
+name: aoi-send-daily-report-eval
 description: Evaluate an AOI daily email report before sending and verify sent-content and provider receipts after sending.
 ---
 
-# aoi-evaluate-daily-report
+# aoi-send-daily-report-eval
 
 Read [the research contract](../../docs/research-contract.md), especially the evaluation protocol. Obtain the frozen task output, raw sources, and relevant prior records. Audit the following requirements and produce an evidence-linked verdict; do not merely grade the performer’s summary.
 
