@@ -1,0 +1,24 @@
+# Idea scoring rubric v1
+
+Score the mined idea, not the article's popularity or the author's rating. Use the same rubric for every candidate. Every dimension needs evidence IDs, a short rationale, uncertainties, and an integer 0–4. Unknown evidence is `unscored`, never a neutral 2. Article provenance, readable thesis, persistent deduplication, and lawful access are eligibility gates, not points that can be compensated elsewhere.
+
+| Dimension | Weight | 0 | 2 | 4 |
+| --- | ---: | --- | --- | --- |
+| Evidence quality | 25 | Contradicted or unsupported | Material primary anchors checked; important gaps remain | Material claims corroborated with strong original evidence and counterevidence; independence and incentives assessed |
+| Valuation and payoff | 25 | Unfavorable net payoff or indefensible assumptions | Conditional upside plausible; downside and sensitivities visible | Attractive payoff under conservative, evidence-grounded scenarios and plausible sensitivity tests |
+| Thesis mechanism and differentiation | 15 | Incoherent mechanism or no discernible variant | Article's mechanism is explicit; variant is plausible but unverified | Clear source-derived mechanism with evidence the market may misprice it and measurable falsifiers |
+| Catalysts and timing | 10 | No plausible resolution within horizon | Observable catalyst with timing uncertainty | Dated, observable catalyst plausibly connects to thesis resolution within horizon |
+| Downside and robustness | 15 | Severe unbounded/unexamined loss or thesis fails modest changes | Material downside identified and bounded under explicit stress assumptions | Thesis/selection survives plausible adverse assumptions; residual risks and concentration exposures explicit |
+| Equity mapping and implementation | 10 | Wrong exposure or infeasible implementation | Correct listed equity/direction; relevant price/liquidity/cost checks incomplete | Direct exposure, current sourced entry inputs, liquidity/cost/FX and later-entry feasibility assessed |
+
+Use 1 for evidence between 0 and 2; 3 between 2 and 4, with rationale. A 4 needs the full stated anchor, not just one favorable feature. Total = sum(weight × score / 4), out of 100. Report all component scores and weighted contributions so the total can be reproduced. If any dimension is unscored, total is `incomplete`; optionally show an explicit possible range without normalizing away missing dimensions.
+
+Triage bands (research priorities, not buy instructions): 80–100 high-priority diligence; 65–79 watchlist/further diligence; 50–64 low priority; below 50 reject/defer. Incomplete means needs evidence. An unsupported required financial input, fired falsifier, unverified thesis provenance, unread body, or prior completed mining prevents promotion regardless of score. Candidates remain candidates until evaluation passes; passing a quality evaluation does not make the idea profitable or automatically eligible for execution.
+
+Rank eligible ideas by total, then evidence-quality score, then downside score. Explain ties; retain ties if still equal. Keep ineligible and rejected ideas in a separate unranked log with reasons. Different event probabilities are not a common ranking basis. Explain score sensitivity near a band threshold and distinguish this ordinal judgment from the event probability or expected ROI. Do not adjust weights after seeing which idea wins; a user-requested rubric revision gets a new version and rescoring of the comparison set.
+
+## Mechanical scoring and rank generation
+
+Use `scripts/score_ideas.py` (relative to the skill directory) to generate the authoritative score table from an input JSON array. Each idea needs `idea_id`, `scores` with exactly `evidence`, `valuation`, `mechanism`, `catalysts`, `downside`, `implementation` (integer0–4 or null), explicit booleans `valuation_inputs_verified` and `eligibility_gates_passed`, and `missing_required_inputs` as a list. Additional evidence/rationale fields may accompany the input and are retained. Evidence judgments still require independent evaluation; the helper handles arithmetic and eligibility/ranks, not source truth.
+
+When the required reference-price or valuation-anchor evidence is unavailable, set `valuation_inputs_verified:false` and valuation score null. A poor but assessable payoff can score0/1; an unassessable payoff is unscored. Preserve historical scenario arithmetic separately as illustrative if needed; it cannot fill an unsupported current input. Missing required inputs or failed gates prohibit ranking even with a high possible score. All rejected/deferred, incomplete and ineligible ideas have rank null. Do not assign ordinal ranks as row numbers in another table. Derive narrative, snapshot, table and index score/rank fields from the helper's output; do not hand-copy a stale complete total. Run the helper after any input change and check those fields agree in every current artifact before freezing.

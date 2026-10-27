@@ -15,6 +15,8 @@ Daily flow: discover → evaluate; update all tracked ideas → evaluate; review
 
 Before unattended use, configure the equity universe, investment constraints, data root, source access, market-data providers, benchmark/return conventions, reporting timezone, recipients, delivery authorization, and schedule. Missing research inputs remain explicit; missing delivery configuration leaves a complete draft. This repository does not install jobs, connect accounts, send messages, or trade.
 
+Idea discovery mines only Seeking Alpha’s latest trending analysis. It keeps article-ID history outside Git to avoid mining an analysis twice and scores ideas using a fixed evidence-linked rubric. Default local data root: `/Volumes/Agent/AOI-data`; training uses a separate declared ledger.
+
 ## Training a skill pair
 
 Use [skill-trainer](skills/skill-trainer/SKILL.md) with a task skill path and a realistic task/input set. It runs a fresh task subagent, freezes its output, runs an independent evaluation subagent, and improves the task skill based on failures. It repeats until a verified pass, preserving iteration evidence and keeping the evaluator fixed. Training records stay outside this repository.

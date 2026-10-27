@@ -1,12 +1,15 @@
 ---
 name: aoi-develop-ideas-eval
-description: Evaluate new AOI investment ideas for source quality, falsifiability, counterevidence, equity exposure, and return-estimate integrity.
+description: Evaluate ideas mined from Seeking Alpha trending analysis for article provenance, persistent deduplication, rubric scores, evidence, and ROI integrity.
 ---
 
 # aoi-develop-ideas-eval
 
 Read [the research contract](../../docs/research-contract.md), especially the evaluation protocol. Obtain the frozen task output, raw sources, and relevant prior records. Audit the following requirements and produce an evidence-linked verdict; do not merely grade the performer’s summary.
 
+- Verify each seed article was on a captured latest Seeking Alpha Trending Analysis listing with observation time and actual listing evidence. Search snippets, other publications, and independently invented theses are not eligible discovery sources. Primary sources may validate only. Trace each idea's mechanism/direction/equity back to an accessible thesis-bearing article body; a teaser alone is insufficient. If login was needed, verify the user was asked to sign in using their browser/authorized session and confirm readiness, without collecting secrets, before an access-blocked conclusion; check the post-login retry or explicit declined/unavailable access outcome. Pending login is a blocked/incomplete run, not a passing zero-idea result. Zero new ideas is acceptable only with a complete, truthful access/duplicate outcome log, not invented substitutes.
+- Inspect the durable article ledger before/after, immutable extractions and result references, stable article IDs/canonical aliases, and atomic claim outcomes. Verify prior mined/rejected articles were skipped, blocked unread access remains retryable, and recovery reuses saved material. Check the repeated-listing/URL-alias deduplication proof: no duplicate read or terminal mining event. Distinct articles repeating the same thesis must link to the existing idea lineage.
+- Read the task skill's [scoring rubric](../aoi-develop-ideas/references/idea-scoring.md). For every mined idea verify dimension evidence, 0–4 anchors, weights, contributions, total, band, eligibility gates, ranking/tie-breaks, and sensitivity. Recompute arithmetic. Unknown dimensions must remain unscored with incomplete total; points cannot compensate for an unread body, duplicate mining, unsupported required inputs or a fired falsifier. Scoring must not be represented as event probability or performance.
 - Verify the discovery window and candidate/rejection log; confirm ranking is supported and existing ideas are deduplicated.
 - Open material sources and check authorship, dates, primary corroboration, lawful access, source independence, and faithful claim extraction. Inaccessible decisive evidence blocks verification.
 - Check the causal thesis, differentiated view, measurable success event, horizon, catalysts, falsifiers, strongest countercase, and equity mapping. A popular article alone is insufficient.
