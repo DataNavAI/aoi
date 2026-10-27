@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="A private, local browser for AOI investment research.">
+  <title>AOI · Idea desk</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#reader">Skip to idea</a>
+  <header class="masthead">
+    <a class="brand" href="index.html" aria-label="AOI idea library"><span class="brand-mark">aoi<span>↗</span></span><span class="brand-name">ALPHA OBSESSED<br>INVESTOR</span></a>
+    <span class="masthead-note"><span class="local-dot"></span> LOCAL RESEARCH LIBRARY</span>
+  </header>
+  <main class="shell">
+    <section class="page-heading" aria-labelledby="page-title">
+      <div><p class="eyebrow">THE RESEARCH DESK / 02</p><h1 id="page-title">Investment ideas<span class="title-dot">.</span></h1><p class="page-subtitle">A clearer view of the thesis, the evidence, and what still needs work.</p></div>
+      <div class="as-of"><span class="eyebrow">RESEARCH AS OF</span><strong id="research-date">—</strong><span>Preserved research · no live quotes</span></div>
+    </section>
+    <section class="metrics" aria-label="Library overview">
+      <div><span class="metric-label">Ideas in the library</span><strong id="idea-count">0</strong><span class="metric-detail">Source-derived research</span></div>
+      <div><span class="metric-label">Complete scores</span><strong id="complete-count">0</strong><span class="metric-detail">All six dimensions assessed</span></div>
+      <div><span class="metric-label">Need more evidence</span><strong id="gap-count">0</strong><span class="metric-detail">Missing inputs stay visible</span></div>
+    </section>
+    <section class="toolbar" aria-label="Find ideas">
+      <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><span class="sr-only">Search ideas</span><input aria-label="Search ideas" id="search" type="search" placeholder="Search a ticker, thesis, or risk…" autocomplete="off"><kbd>/</kbd></label>
+      <label class="select-box"><span>Status</span><select id="status" aria-label="Status"><option value="all">All ideas</option><option value="complete">Eligible to rank</option><option value="incomplete">Needs evidence</option><option value="ineligible">Ineligible / rejected</option><option value="closed">Invalidated / closed</option></select></label>
+      <label class="select-box"><span>Sort by</span><select id="sort" aria-label="Sort by"><option value="priority">Research priority</option><option value="known">Known points</option><option value="ticker">Ticker A–Z</option><option value="updated">Recently updated</option></select></label>
+    </section>
+    <div class="workspace">
+      <aside class="list-panel" aria-label="Idea selection"><div class="list-heading"><span>YOUR IDEAS</span><span id="result-count" aria-live="polite"></span></div><div id="idea-list"></div><p class="list-footnote">Incomplete subtotals are for browsing, not an investment ranking.</p></aside>
+      <section id="reader" class="reader" tabindex="-1" aria-label="Selected idea"><div class="empty-state"><span class="empty-glyph">↗</span><h2>Loading your library</h2></div></section>
+    </div>
+    <footer class="page-footer"><span>AOI / Investment research, kept in perspective.</span><span>Scores are research assessments, not probabilities or return forecasts.</span></footer>
+  </main>
+  <noscript><style>.metrics,.toolbar,.workspace,.as-of{display:none}</style><section class="no-script"><h2>Read the ideas</h2><p>Enable JavaScript for search and filters, or open a static reading page:</p><ul><!--FALLBACK--></ul></section></noscript>
+  <script id="idea-data" type="application/json"><!--APP_DATA--></script>
+</body>
+</html>

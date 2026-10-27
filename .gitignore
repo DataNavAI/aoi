@@ -11,3 +11,8 @@ data/
 reports/
 delivery/
 credentials/
+
+# Generated research sites (source assets live under web/).
+/site/
+/build/
+/dist/
