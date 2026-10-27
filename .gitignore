@@ -1,0 +1,13 @@
+# Runtime research and private configuration stay outside the skill distribution.
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+runtime/
+data/
+reports/
+delivery/
+credentials/
