@@ -1,0 +1,124 @@
+{
+  "idea_id": "SA-4957427-CWEN",
+  "version": 2,
+  "created_at": "2026-10-27T04:55:27.648048+00:00",
+  "as_of_session": "2026-10-26",
+  "resolution_date": "2027-10-26",
+  "horizon": "12 months",
+  "status": "candidate",
+  "target_equities": [
+    {
+      "company": "Clearway Energy Inc",
+      "ticker": "CWEN",
+      "exchange": "NYSE",
+      "currency": "USD",
+      "direction": "long",
+      "leverage": 1
+    }
+  ],
+  "source_article_id": "4957427",
+  "thesis": "Contracted clean power assets and sponsor growth produce rising per-share cash generation and sustainable distributions.",
+  "likelihood": {
+    "prior": "not estimable",
+    "current": "not estimable",
+    "change_percentage_points": null,
+    "history": [
+      {
+        "at": "2026-10-27T04:17:08.329938+00:00",
+        "probability": "not estimable",
+        "reason": "No calibrated base-rate model; scenario weights are exploratory stress assumptions, not validated event probability."
+      }
+    ],
+    "uncertainty": "wide; do not equate rubric score or scenario bull weight with forecast probability"
+  },
+  "score": {
+    "idea_id": "SA-4957427-CWEN",
+    "scores": {
+      "evidence": 2,
+      "valuation": null,
+      "mechanism": 2,
+      "catalysts": 2,
+      "downside": 2,
+      "implementation": 2
+    },
+    "valuation_inputs_verified": false,
+    "eligibility_gates_passed": true,
+    "missing_required_inputs": [
+      "reference-price adjustment basis",
+      "executable spread/actual cost evidence"
+    ],
+    "dimension_assessment": {
+      "evidence": {
+        "evidence_ids": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "rationale": "Primary anchors corroborated with contrary issuer evidence; forecasts correlated, independent demand/track record not established",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "valuation": {
+        "evidence_ids": [
+          "E1",
+          "E2",
+          "E3",
+          "E4",
+          "E10"
+        ],
+        "rationale": "Required reference adjustment basis unavailable; historical scenario arithmetic cannot supply a current assessable payoff",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "mechanism": {
+        "evidence_ids": [
+          "E1",
+          "E3"
+        ],
+        "rationale": "Saved author mechanism explicit; current primary claim checked; market mispricing remains unproved",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "catalysts": {
+        "evidence_ids": [
+          "E2",
+          "E3"
+        ],
+        "rationale": "Issuer operational/result updates observable during horizon; no guaranteed rerating or precise resolution date",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "downside": {
+        "evidence_ids": [
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "rationale": "Issuer risks and historical stress show meaningful loss exposure; total equity loss remains possible; stress is not a bound",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "implementation": {
+        "evidence_ids": [
+          "E10",
+          "E2"
+        ],
+        "rationale": "Listed USD exposure/mark observed; adjustment, spread, costs incomplete",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      }
+    },
+    "contributions": {
+      "evidence": 12.5,
+      "valuation": null,
+      "mechanism": 7.5,
+      "catalysts": 5.0,
+      "downside": 7.5,
+      "implementation": 5.0
+    },
+    "known_subtotal": 37.5,
+    "possible_range": [
+      37.5,
+      62.5
+    ],
+    "total": null,
+    "band": "incomplete",
+    "eligible_for_ranking": false,
+    "rank": null
+  }
+}

@@ -1,0 +1,55 @@
+name: Publish idea browser
+
+on:
+  push:
+    branches: [main]
+    paths: ['research/**', 'scripts/**', 'web/**', 'tests/**', '.github/workflows/pages.yml']
+  pull_request:
+    paths: ['research/**', 'scripts/**', 'web/**', 'tests/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      research_commit:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages-${{ github.event_name == 'pull_request' && github.ref || 'production' }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.research_commit || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Test
+        run: python3 -m unittest discover -s tests -v
+      - name: Build static library
+        run: python3 scripts/build_idea_site.py --source research --output site
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

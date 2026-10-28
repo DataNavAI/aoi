@@ -1,0 +1,62 @@
+[
+  {
+    "idea_id": "SA-4957427-CWEN",
+    "ticker": "CWEN",
+    "snapshot": "ideas/SA-4957427-CWEN/snapshots/SA-4957427-CWEN-v2.json",
+    "version": 2,
+    "rank": null,
+    "total": null,
+    "band": "incomplete",
+    "eligible_for_ranking": false,
+    "status": "candidate; needs evidence",
+    "source_article_id": "4957427",
+    "reading_page": "ideas/SA-4957427-CWEN/IDEA.md",
+    "as_of_session": "2026-10-26",
+    "last_research_updated_at": "2026-10-27T04:55:27.648048+00:00",
+    "known_subtotal": 37.5,
+    "possible_range": [
+      37.5,
+      62.5
+    ]
+  },
+  {
+    "idea_id": "SA-4957427-XIFR",
+    "ticker": "XIFR",
+    "snapshot": "ideas/SA-4957427-XIFR/snapshots/SA-4957427-XIFR-v3.json",
+    "version": 3,
+    "rank": null,
+    "total": null,
+    "band": "incomplete",
+    "eligible_for_ranking": false,
+    "status": "candidate; needs evidence",
+    "source_article_id": "4957427",
+    "reading_page": "ideas/SA-4957427-XIFR/IDEA.md",
+    "as_of_session": "2026-10-26",
+    "last_research_updated_at": "2026-10-27T04:55:27.648048+00:00",
+    "known_subtotal": 28.75,
+    "possible_range": [
+      28.75,
+      53.75
+    ]
+  },
+  {
+    "idea_id": "SA-4957455-MU",
+    "ticker": "MU",
+    "snapshot": "ideas/SA-4957455-MU/snapshots/SA-4957455-MU-v2.json",
+    "version": 2,
+    "rank": null,
+    "total": null,
+    "band": "incomplete",
+    "eligible_for_ranking": false,
+    "status": "candidate; needs evidence",
+    "source_article_id": "4957455",
+    "reading_page": "ideas/SA-4957455-MU/IDEA.md",
+    "as_of_session": "2026-10-26",
+    "last_research_updated_at": "2026-10-27T04:55:27.648048+00:00",
+    "known_subtotal": 40.0,
+    "possible_range": [
+      40.0,
+      65.0
+    ]
+  }
+]

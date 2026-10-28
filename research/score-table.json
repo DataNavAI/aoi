@@ -1,0 +1,279 @@
+{
+  "rubric_version": 1,
+  "weights": {
+    "evidence": 25,
+    "valuation": 25,
+    "mechanism": 15,
+    "catalysts": 10,
+    "downside": 15,
+    "implementation": 10
+  },
+  "ideas": [
+    {
+      "idea_id": "SA-4957427-CWEN",
+      "scores": {
+        "evidence": 2,
+        "valuation": null,
+        "mechanism": 2,
+        "catalysts": 2,
+        "downside": 2,
+        "implementation": 2
+      },
+      "valuation_inputs_verified": false,
+      "eligibility_gates_passed": true,
+      "missing_required_inputs": [
+        "reference-price adjustment basis",
+        "executable spread/actual cost evidence"
+      ],
+      "dimension_assessment": {
+        "evidence": {
+          "evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "rationale": "Primary anchors corroborated with contrary issuer evidence; forecasts correlated, independent demand/track record not established",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "valuation": {
+          "evidence_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E10"
+          ],
+          "rationale": "Required reference adjustment basis unavailable; historical scenario arithmetic cannot supply a current assessable payoff",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "mechanism": {
+          "evidence_ids": [
+            "E1",
+            "E3"
+          ],
+          "rationale": "Saved author mechanism explicit; current primary claim checked; market mispricing remains unproved",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "catalysts": {
+          "evidence_ids": [
+            "E2",
+            "E3"
+          ],
+          "rationale": "Issuer operational/result updates observable during horizon; no guaranteed rerating or precise resolution date",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "downside": {
+          "evidence_ids": [
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "rationale": "Issuer risks and historical stress show meaningful loss exposure; total equity loss remains possible; stress is not a bound",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "implementation": {
+          "evidence_ids": [
+            "E10",
+            "E2"
+          ],
+          "rationale": "Listed USD exposure/mark observed; adjustment, spread, costs incomplete",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        }
+      },
+      "contributions": {
+        "evidence": 12.5,
+        "valuation": null,
+        "mechanism": 7.5,
+        "catalysts": 5.0,
+        "downside": 7.5,
+        "implementation": 5.0
+      },
+      "known_subtotal": 37.5,
+      "possible_range": [
+        37.5,
+        62.5
+      ],
+      "total": null,
+      "band": "incomplete",
+      "eligible_for_ranking": false,
+      "rank": null
+    },
+    {
+      "idea_id": "SA-4957427-XIFR",
+      "scores": {
+        "evidence": 2,
+        "valuation": null,
+        "mechanism": 2,
+        "catalysts": 1,
+        "downside": 1,
+        "implementation": 1
+      },
+      "valuation_inputs_verified": false,
+      "eligibility_gates_passed": false,
+      "missing_required_inputs": [
+        "reference-price adjustment basis",
+        "executable spread/actual cost evidence",
+        "LP-unit common-share scope",
+        "residual equity cash waterfall and unit denominator"
+      ],
+      "dimension_assessment": {
+        "evidence": {
+          "evidence_ids": [
+            "E1",
+            "E9"
+          ],
+          "rationale": "Primary anchors corroborated with contrary issuer evidence; forecasts correlated, independent demand/track record not established",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "valuation": {
+          "evidence_ids": [
+            "E1",
+            "E9",
+            "E10"
+          ],
+          "rationale": "Required reference adjustment basis unavailable; historical scenario arithmetic cannot supply a current assessable payoff",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "mechanism": {
+          "evidence_ids": [
+            "E1",
+            "E9"
+          ],
+          "rationale": "Saved author mechanism explicit; current primary claim checked; market mispricing remains unproved",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "catalysts": {
+          "evidence_ids": [
+            "E9"
+          ],
+          "rationale": "Issuer operational/result updates observable during horizon; no guaranteed rerating or precise resolution date",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "downside": {
+          "evidence_ids": [
+            "E1",
+            "E9"
+          ],
+          "rationale": "Issuer risks and historical stress show meaningful loss exposure; total equity loss remains possible; stress is not a bound",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "implementation": {
+          "evidence_ids": [
+            "E10",
+            "E9"
+          ],
+          "rationale": "Listed USD exposure/mark observed; adjustment, spread, costs incomplete; LP unit scope unresolved",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        }
+      },
+      "contributions": {
+        "evidence": 12.5,
+        "valuation": null,
+        "mechanism": 7.5,
+        "catalysts": 2.5,
+        "downside": 3.75,
+        "implementation": 2.5
+      },
+      "known_subtotal": 28.75,
+      "possible_range": [
+        28.75,
+        53.75
+      ],
+      "total": null,
+      "band": "incomplete",
+      "eligible_for_ranking": false,
+      "rank": null
+    },
+    {
+      "idea_id": "SA-4957455-MU",
+      "scores": {
+        "evidence": 3,
+        "valuation": null,
+        "mechanism": 2,
+        "catalysts": 2,
+        "downside": 1,
+        "implementation": 2
+      },
+      "valuation_inputs_verified": false,
+      "eligibility_gates_passed": true,
+      "missing_required_inputs": [
+        "reference-price adjustment basis",
+        "executable spread/actual cost evidence"
+      ],
+      "dimension_assessment": {
+        "evidence": {
+          "evidence_ids": [
+            "E5",
+            "E6",
+            "E7",
+            "E8"
+          ],
+          "rationale": "Primary anchors corroborated with contrary issuer evidence; forecasts correlated, independent demand/track record not established",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "valuation": {
+          "evidence_ids": [
+            "E5",
+            "E6",
+            "E7",
+            "E8",
+            "E10"
+          ],
+          "rationale": "Required reference adjustment basis unavailable; historical scenario arithmetic cannot supply a current assessable payoff",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "mechanism": {
+          "evidence_ids": [
+            "E5",
+            "E7"
+          ],
+          "rationale": "Saved author mechanism explicit; current primary claim checked; market mispricing remains unproved",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "catalysts": {
+          "evidence_ids": [
+            "E6",
+            "E7"
+          ],
+          "rationale": "Issuer operational/result updates observable during horizon; no guaranteed rerating or precise resolution date",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "downside": {
+          "evidence_ids": [
+            "E6",
+            "E7",
+            "E8"
+          ],
+          "rationale": "Issuer risks and historical stress show meaningful loss exposure; total equity loss remains possible; stress is not a bound",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        },
+        "implementation": {
+          "evidence_ids": [
+            "E8",
+            "E10"
+          ],
+          "rationale": "Listed USD exposure/mark observed; adjustment, spread, costs incomplete",
+          "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+        }
+      },
+      "contributions": {
+        "evidence": 18.75,
+        "valuation": null,
+        "mechanism": 7.5,
+        "catalysts": 5.0,
+        "downside": 3.75,
+        "implementation": 5.0
+      },
+      "known_subtotal": 40.0,
+      "possible_range": [
+        40.0,
+        65.0
+      ],
+      "total": null,
+      "band": "incomplete",
+      "eligible_for_ranking": false,
+      "rank": null
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "idea_id": "SA-4957427-XIFR",
+  "version": 3,
+  "created_at": "2026-10-27T04:55:27.648048+00:00",
+  "as_of_session": "2026-10-26",
+  "resolution_date": "2027-10-26",
+  "horizon": "12 months",
+  "status": "candidate",
+  "target_equities": [
+    {
+      "company": "XPLR Infrastructure LP",
+      "ticker": "XIFR",
+      "exchange": "NYSE",
+      "currency": "USD",
+      "direction": "long",
+      "instrument": "LP common units; not corporate common shares"
+    }
+  ],
+  "source_article_id": "4957427",
+  "thesis": "Source-derived highly leveraged deleveraging turnaround; capital structure simplification could rerate LP residual equity.",
+  "likelihood": {
+    "prior": "not estimable",
+    "current": "not estimable",
+    "change_percentage_points": null,
+    "history": [
+      {
+        "at": "2026-10-27T04:17:08.329938+00:00",
+        "probability": "not estimable",
+        "basis": "No calibrated evidence"
+      }
+    ]
+  },
+  "score": {
+    "idea_id": "SA-4957427-XIFR",
+    "scores": {
+      "evidence": 2,
+      "valuation": null,
+      "mechanism": 2,
+      "catalysts": 1,
+      "downside": 1,
+      "implementation": 1
+    },
+    "valuation_inputs_verified": false,
+    "eligibility_gates_passed": false,
+    "missing_required_inputs": [
+      "reference-price adjustment basis",
+      "executable spread/actual cost evidence",
+      "LP-unit common-share scope",
+      "residual equity cash waterfall and unit denominator"
+    ],
+    "dimension_assessment": {
+      "evidence": {
+        "evidence_ids": [
+          "E1",
+          "E9"
+        ],
+        "rationale": "Primary anchors corroborated with contrary issuer evidence; forecasts correlated, independent demand/track record not established",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "valuation": {
+        "evidence_ids": [
+          "E1",
+          "E9",
+          "E10"
+        ],
+        "rationale": "Required reference adjustment basis unavailable; historical scenario arithmetic cannot supply a current assessable payoff",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "mechanism": {
+        "evidence_ids": [
+          "E1",
+          "E9"
+        ],
+        "rationale": "Saved author mechanism explicit; current primary claim checked; market mispricing remains unproved",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "catalysts": {
+        "evidence_ids": [
+          "E9"
+        ],
+        "rationale": "Issuer operational/result updates observable during horizon; no guaranteed rerating or precise resolution date",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "downside": {
+        "evidence_ids": [
+          "E1",
+          "E9"
+        ],
+        "rationale": "Issuer risks and historical stress show meaningful loss exposure; total equity loss remains possible; stress is not a bound",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      },
+      "implementation": {
+        "evidence_ids": [
+          "E10",
+          "E9"
+        ],
+        "rationale": "Listed USD exposure/mark observed; adjustment, spread, costs incomplete; LP unit scope unresolved",
+        "uncertainty": "Ordinal assessment; missing verified price basis blocks valuation and ranking"
+      }
+    },
+    "contributions": {
+      "evidence": 12.5,
+      "valuation": null,
+      "mechanism": 7.5,
+      "catalysts": 2.5,
+      "downside": 3.75,
+      "implementation": 2.5
+    },
+    "known_subtotal": 28.75,
+    "possible_range": [
+      28.75,
+      53.75
+    ],
+    "total": null,
+    "band": "incomplete",
+    "eligible_for_ranking": false,
+    "rank": null
+  }
+}

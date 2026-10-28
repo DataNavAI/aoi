@@ -48,3 +48,17 @@ The builder reads `ideas/*/IDEA.md`, optional `current-snapshot-index.json` (or 
 Rebuild after updating ideas. Source research is read-only. An atomic build replaces only a generator-owned output directory; it refuses to overwrite unrelated output files. Keep generated research sites outside Git. Generated sites contain private research copies—this script performs no upload or hosting.
 
 Run the behavioral checks with `python3 -m unittest discover -s tests -v`.
+
+## GitHub Pages
+
+The versioned public reading library is in [research/INDEX.md](research/INDEX.md).
+[Pages CI](.github/workflows/pages.yml) tests, builds and deploys it on updates to `main`;
+pull requests get build checks. Configure the repository's Pages source as **GitHub Actions**.
+Build the same artifact locally with:
+
+```bash
+python3 scripts/build_idea_site.py --source research --output site
+```
+
+See [publication and daily research setup](docs/github-pages.md) for the public export
+boundary, reusable deployment workflow and remaining daily research prerequisites.
