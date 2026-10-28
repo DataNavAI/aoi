@@ -54,6 +54,6 @@ remain recorded even when publication fails.
 Scheduled execution uses the Codex automation facility, not a GitHub Actions cron.
 GitHub hosts the static site continuously; it remains reachable when the research
 computer is offline, but research runs require that computer and Codex to be available.
-Email is not sent until recipients and standing delivery authorization are configured.
+After accepted idea updates and verified deployment, the routine uses `aoi-send-daily-report` and its evaluator for pre-send and post-send checks. The self-recipient and standing authorization are configured privately in `/Volumes/Agent/AOI-data/report-delivery.json`; addresses, email contents and the deduplication ledger stay outside Git. No-change or blocked-only runs do not send a misleading update email.
 
 Repository: `DataNavAI/aoi`; published URL: `https://datanavai.github.io/aoi/`.
