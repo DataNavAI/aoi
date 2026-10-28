@@ -51,6 +51,9 @@ Run the behavioral checks with `python3 -m unittest discover -s tests -v`.
 
 ## GitHub Pages
 
+Browse the published ideas at **[AOI idea browser](https://datanavai.github.io/aoi/)**.
+Source: [DataNavAI/aoi](https://github.com/DataNavAI/aoi).
+
 The versioned public reading library is in [research/INDEX.md](research/INDEX.md).
 [Pages CI](.github/workflows/pages.yml) tests, builds and deploys it on updates to `main`;
 pull requests get build checks. Configure the repository's Pages source as **GitHub Actions**.

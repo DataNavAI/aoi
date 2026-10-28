@@ -51,6 +51,8 @@ research or evaluation run leaves the last successful website online. Keep resea
 cutoffs distinct from build/deployment time. Sending email requires its separate delivery
 configuration and is not implied by a website publishing workflow.
 
-Pending configuration: intended repository/owner, hosted API versus self-hosted research
-runtime, approved Seeking Alpha access method, durable private ledger location, daily time.
+Repository: `DataNavAI/aoi`; published URL: `https://datanavai.github.io/aoi/`.
+
+Pending configuration: hosted API versus self-hosted research runtime, approved Seeking
+Alpha access method, durable private ledger location, daily time.
 No daily research schedule is enabled until these dependencies are configured.
