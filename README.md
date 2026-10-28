@@ -82,3 +82,15 @@ may occasionally require interactive login or verification; affected work is rep
 as blocked while independent work continues. No additional API key is required for
 this Codex schedule. Email remains draft-only until delivery settings and authorization
 are supplied.
+
+## Idea TLDR
+
+Development and refinement both require [the TLDR contract](docs/idea-tldr.md) at the
+top of every idea: thesis and bounded decision window; up to three major causal
+supporting observations plus a countercase; every target's product identity, dated
+price, attributed ratings, separate AOI score and predicted annualized net return
+range. Unsupported ranges and stale prices stay explicitly unavailable rather than
+being filled with invented figures. The task/evaluator pairs enforce this in the
+Markdown, current snapshot and public export.
+
+Training results for the TLDR standard: [independent fixture evaluation summary](docs/tldr-training.md).

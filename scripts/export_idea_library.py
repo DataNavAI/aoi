@@ -11,7 +11,9 @@ INDEX_FIELDS = ('idea_id', 'ticker', 'snapshot', 'version', 'rank', 'total', 'ba
                 'as_of_session', 'last_research_updated_at', 'known_subtotal', 'possible_range')
 SNAPSHOT_FIELDS = ('idea_id', 'version', 'created_at', 'as_of_session', 'resolution_date',
                    'horizon', 'status', 'target_equities', 'source_article_id', 'thesis',
-                   'likelihood', 'score')
+                   'likelihood', 'score', 'tldr', 'synthetic', 'as_of', 'source_cutoff',
+                   'prior_snapshot', 'variant_perception', 'success_event', 'execution_status',
+                   'evidence_ids', 'catalysts', 'falsifiers', 'scenarios', 'entry_conditions', 'next_review')
 
 
 def export(source, output):
@@ -23,6 +25,23 @@ def export(source, output):
     rows = json.loads((source / 'current-snapshot-index.json').read_text())
     files = {'INDEX.md', 'score-table.json', 'current-snapshot-index.json'}
     snapshots, notes, index = {}, {}, []
+    def add_snapshot(relative):
+        if relative in snapshots:
+            return
+        path = (source / relative).resolve()
+        if Path(relative).is_absolute() or not path.is_relative_to(source):
+            raise ValueError('Unsafe snapshot lineage path')
+        snapshot = json.loads(path.read_text())
+        snapshots[relative] = {k: snapshot[k] for k in SNAPSHOT_FIELDS if k in snapshot}
+        files.add(relative)
+        if snapshot.get('synthetic') is True:
+            snapshots[relative]['research_scope'] = 'Synthetic fixture replay only; not live market research'
+        prior = snapshot.get('prior_snapshot')
+        if isinstance(prior, str) and prior:
+            prior_path = (path.parent / prior).resolve()
+            if not prior_path.is_relative_to(source):
+                raise ValueError('Unsafe snapshot lineage path')
+            add_snapshot(prior_path.relative_to(source).as_posix())
     for row in rows:
         item = {k: row[k] for k in INDEX_FIELDS if k in row}
         for field in ('reading_page', 'snapshot'):
@@ -31,8 +50,7 @@ def export(source, output):
             if Path(relative).is_absolute() or not path.is_relative_to(source) or path.is_symlink():
                 raise ValueError('Unsafe library path')
             files.add(relative)
-        snapshot = json.loads((source / item['snapshot']).read_text())
-        snapshots[item['snapshot']] = {k: snapshot[k] for k in SNAPSHOT_FIELDS if k in snapshot}
+        add_snapshot(item['snapshot'])
         notes[item['reading_page']] = (source / item['reading_page']).read_text()
         index.append(item)
     def clean_link(match, document):
@@ -59,7 +77,11 @@ def export(source, output):
         write(name, json.dumps(snapshot, indent=2) + '\n')
     write('current-snapshot-index.json', json.dumps(index, indent=2) + '\n')
     write('score-table.json', (source / 'score-table.json').read_text())
-    write('INDEX.md', '# AOI investment ideas\n\nPublic reading library. Research dates and missing inputs remain explicit.\n\n' + '\n'.join(f"- [{r['ticker']}: {r['idea_id']}]({r['reading_page']})" for r in index) + '\n')
+    if (source / 'INDEX.md').is_file():
+        public_index = re.sub(r'\[([^\]\n]+)\]\(([^\s]+?)\)', lambda m: clean_link(m, 'INDEX.md'), (source / 'INDEX.md').read_text())
+    else:
+        public_index = '# AOI investment ideas\n\nPublic reading library. Research dates and missing inputs remain explicit.\n\n' + '\n'.join(f"- [{r['ticker']}: {r['idea_id']}]({r['reading_page']})" for r in index) + '\n'
+    write('INDEX.md', public_index)
     return len(index)
 
 

@@ -59,7 +59,8 @@
     button.type='button'; button.dataset.ideaId=idea.id; button.setAttribute('aria-pressed',String(idea.id===state.selected));
     button.setAttribute('aria-label',`${idea.ticker}: ${idea.title}. ${groups[idea.group]}. ${scoreText(idea)}.`);
     const top=el('span','card-top'); top.append(el('span','ticker',idea.ticker),badge(idea));
-    const headline=idea.title.includes(':') ? idea.title.split(':').slice(1).join(':').trim() : idea.title;
+    const prefix=idea.ticker+':';
+    const headline=idea.title.startsWith(prefix)?idea.title.slice(prefix.length).trim():idea.title;
     const score=el('span','card-score'); score.append(el('strong','',scoreText(idea)),el('span','',isNumber(idea.total)?'Complete score':'Total incomplete'));
     button.append(top,el('span','card-title',headline),el('span','card-summary',idea.summary),score,track(idea));
     if (!isNumber(idea.total) && Array.isArray(idea.range) && idea.range.length===2) button.append(el('span','card-range',`Possible ${num(idea.range[0])}–${num(idea.range[1])} / 100 · not a rank`));
@@ -90,9 +91,10 @@
     const hero=el('header','idea-hero');const top=el('div','hero-top');const identity=el('div');identity.append(el('span','ticker',idea.ticker),badge(idea));
     const actions=el('div','hero-actions');const markdown=link('Source Markdown ↗',idea.markdownUrl);markdown.setAttribute('download','IDEA.md');actions.append(markdown);
     const print=el('button','icon-button','Print idea');print.type='button';print.addEventListener('click',()=>window.print());actions.append(print);top.append(identity,actions);
-    const headline=idea.title.includes(':')?idea.title.split(':').slice(1).join(':').trim():idea.title;
+    const prefix=idea.ticker+':';
+    const headline=idea.title.startsWith(prefix)?idea.title.slice(prefix.length).trim():idea.title;
     hero.append(top,el('p','hero-meta',idea.company+' / SOURCE-DERIVED THESIS'),el('h2','',headline),el('p','hero-summary',idea.summary));
-    const facts=el('div','hero-facts');facts.append(fact('Research as of',date(idea.asOf)),fact('Horizon',idea.horizon||'See research note'),fact('Event likelihood',isNumber(idea.likelihood)?num(idea.likelihood)+' (as recorded)':String(idea.likelihood||'Not estimable')));
+    const facts=el('div','hero-facts');facts.append(fact('Research as of',date(idea.asOf)),fact('Horizon',idea.horizon||'See research note'),fact('Event likelihood',isNumber(idea.likelihood)?num(idea.likelihood)+'%':String(idea.likelihood||'Not estimable')));
     if (idea.resolution) facts.append(fact('Resolution',date(idea.resolution)));
     hero.append(facts);
     const summary=el('aside','score-summary');summary.setAttribute('aria-label','Research score');const number=el('div','score-number',isNumber(idea.total)?num(idea.total):num(idea.known));
@@ -105,13 +107,17 @@
     explanation.append(strip);summary.append(number,explanation);
     const nav=el('nav','jump-nav');nav.setAttribute('aria-label','Research sections');
     const names={'research-question':'Thesis & horizon','source-derived-thesis':'Source thesis','strongest-countercase':'Countercase','evidence-that-matters':'Evidence','catalysts-and-falsifiers':'Catalysts','score-and-decision-status':'Score','entry-today-versus-later':'Returns','prioritized-next-research-checks':'Next checks','dates-and-supporting-record':'Record'};
-    const fragment=document.createDocumentFragment();fragment.append(hero,summary,nav);
+    const fragment=document.createDocumentFragment();fragment.append(hero);
+    const hasTldr=idea.sections.some(section=>section.id==='tldr');
+    if (!hasTldr) fragment.append(summary,nav);
     for (let index=0;index<idea.sections.length;index++) {
       const section=idea.sections[index];const params=new URLSearchParams({idea:idea.id,section:section.id});const jump=link(names[section.id]||section.title,'#'+params.toString());jump.dataset.section=section.id;nav.append(jump);
       const container=el('section','research-section');container.id='research-'+section.id;
       container.append(el('span','section-label',String(index+1).padStart(2,'0')+' / RESEARCH NOTE'),el('h3','',section.title));
       const prose=el('div','prose');prose.innerHTML=section.html; // HTML is escaped/sanitized by the local Python renderer.
-      container.append(prose);fragment.append(container);
+      container.append(prose);
+      if (section.id==='tldr') {fragment.insertBefore(container,hero.nextSibling);fragment.append(summary,nav);}
+      else fragment.append(container);
     }
     $('reader').replaceChildren(fragment);
   }

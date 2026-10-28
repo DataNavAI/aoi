@@ -18,6 +18,10 @@ Browse or use connected current sources for every research run. High-quality ana
 
 Define a cutoff and search window for each daily run, overlapping the last successful cutoff to catch late indexing. Deduplicate by underlying event; log each idea's coverage, sources checked, failures, and last successful check. `No material change` requires a successful search; a failed search is `coverage incomplete`. Quote price timestamp, currency, source, session, and adjustment basis; mark stale quotes and suppress unsupported current-return claims.
 
+## Reader summary
+
+Every developed or updated idea must satisfy [the idea TLDR contract](idea-tldr.md): a leading thesis/decision window, up to three source-linked supporting observations, a countercase, and each target's dated price, attributed ratings, separate AOI score, and modeled annualized net return range or specific unavailable reason. Keep the structured snapshot summary and public Markdown consistent.
+
 ## Return estimates
 
 For each equity and entry alternative, provide bear/base/bull prices, horizon, probabilities summing to 100%, dividends, costs, currency/FX assumptions, and valuation drivers. For a long position, net ROI % = 100 × (exit proceeds + distributions − entry outlay − costs) / entry outlay. Expected ROI is the probability-weighted scenario ROI, not the base case. Show downside and assumptions alongside upside. Separate nominal cumulative ROI from annualized ROI; annualize only with a positive holding period and state the formula. For shorts or leverage, explicitly model financing, borrow, margin/capital denominator, and loss exposure; otherwise mark unsupported.

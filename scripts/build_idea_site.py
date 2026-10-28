@@ -148,6 +148,7 @@ class Site:
         self.references, self.warnings = {}, set()
         self.idea_routes = {}
         self.input_hashes = {}
+        self.downloads = set()
 
     def track(self, path):
         path = confined(self.source, path)
@@ -191,14 +192,49 @@ class Site:
             self.references[path] = generated
         elif path.suffix.lower() in SAFE_DOWNLOADS:
             generated = 'files/' + relative
-            dest = self.destination / generated; dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(self.track(path), dest)
+            self.copy_download(path)
         else:
             self.warnings.add(f'Unsupported reference type: {relative}'); return None, False
         result = quote(posixpath.relpath(generated, posixpath.dirname(output) or '.'), safe='/.-_')
         if url.fragment:
             result += '#' + quote(unquote(url.fragment), safe='-')
         return result, False
+
+    def copy_download(self, path):
+        """Preserve a download's confined local dependency graph at matching paths."""
+        path = confined(self.source, path)
+        if path in self.downloads:
+            return
+        self.downloads.add(path)
+        dest = self.destination / 'files' / path.relative_to(self.source)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(self.track(path), dest)
+        targets = []
+        if path.suffix.lower() == '.json':
+            def walk(value, key=''):
+                if isinstance(value, dict):
+                    for k, v in value.items(): walk(v, k)
+                elif isinstance(value, list):
+                    for v in value: walk(v, key)
+                elif isinstance(value, str) and (key in {'source','sources','model','receipt','receipts','reference','references','file','path','url','locator','locators','calculation','calculations','prior_snapshot'} or key.endswith(('_ref','_path','_url','_locator','_receipt','_reference','_calculation','_snapshot'))):
+                    targets.append(value)
+            walk(json.loads(self.read(path)))
+        elif path.suffix.lower() == '.md':
+            targets = re.findall(r'\]\(([^\s)]+)\)', self.read(path))
+        for target in targets:
+            try:
+                url = urlsplit(target)
+                if url.scheme or url.netloc or not url.path:
+                    continue
+                linked = confined(self.source, path.parent / unquote(url.path))
+                if linked.suffix.lower() not in SAFE_DOWNLOADS | {'.md'}:
+                    continue
+                if linked.is_file():
+                    self.copy_download(linked)
+                else:
+                    self.warnings.add(f'Missing download dependency in {path.relative_to(self.source)}: {target}')
+            except ValueError:
+                self.warnings.add(f'Invalid download dependency in {path.relative_to(self.source)}')
 
     def renderer(self, document, output='index.html'):
         return Renderer(lambda target: self.link(target, document, output))
@@ -283,7 +319,8 @@ class Site:
             parts = re.split(r'^##\s+(.+)\s*$', clean, flags=re.M)
             intro = parts[0]
             paragraphs = [p.strip() for p in re.split(r'\n\s*\n', intro) if p.strip() and not p.strip().startswith(('**Status:', '[Back'))]
-            summary = snapshot.get('thesis') or (paragraphs[0] if paragraphs else '')
+            tldr = snapshot.get('tldr', {})
+            summary = (tldr.get('idea') if isinstance(tldr, dict) else None) or snapshot.get('thesis') or (paragraphs[0] if paragraphs else '')
             # Summary/card text is text, never executable HTML.
             summary = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', str(summary))
             sections = [{'id': 'overview', 'title': 'Overview', 'html': self.renderer(page).render(intro)}]
@@ -297,7 +334,14 @@ class Site:
             ticker = str(item.get('ticker') or (snapshot.get('target_equities') or [{}])[0].get('ticker') or page.parent.name)
             company = str((snapshot.get('target_equities') or [{}])[0].get('company') or title.split(':')[0])
             source_url = 'https://seekingalpha.com/article/' + str(item['source_article_id']) if str(item.get('source_article_id', '')).isdigit() else None
-            md_copy = self.destination / 'notes' / page.relative_to(self.source); md_copy.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(page, md_copy)
+            md_relative = 'notes/' + page.relative_to(self.source).as_posix()
+            md_copy = self.destination / md_relative; md_copy.parent.mkdir(parents=True, exist_ok=True)
+            def portable_markdown_link(match):
+                label, target = match.groups()
+                target, _ = self.link(target, page, md_relative)
+                return '[' + label + '](' + target + ')' if target else label + ' (reference unavailable)'
+            portable_markdown = re.sub(r'\[([^\]\n]+)\]\(([^\s]+?)\)', portable_markdown_link, markdown)
+            md_copy.write_text(portable_markdown, encoding='utf-8')
             static_path = 'ideas/' + quote(identity, safe='-_') + '/index.html'
             # No untrusted identity may become a filesystem traversal path.
             if not re.fullmatch(r'[A-Za-z0-9_-][A-Za-z0-9_.-]*', identity):
@@ -306,6 +350,17 @@ class Site:
             dest = self.destination / static_path; dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_text(self.reference_page(title, standalone, static_path), encoding='utf-8')
             dimensions = score.get('scores', {})
+            horizon = snapshot.get('horizon', '')
+            resolution = snapshot.get('resolution_date') or snapshot.get('resolution_at', '')
+            if isinstance(horizon, dict):
+                window = horizon.get('decision_window', horizon)
+                if not isinstance(window, dict):
+                    window = {}
+                early = window.get('earliest_check', '')
+                resolution = resolution or window.get('resolution') or window.get('latest_resolution', '')
+                horizon = horizon.get('description') or '; '.join(part for part in [('Early check: ' + str(early)) if early else '', ('Resolution: ' + str(resolution)) if resolution else '']) or 'See decision window'
+            elif not isinstance(horizon, str):
+                horizon = 'See decision window'
             results.append({'id': identity, 'ticker': ticker, 'company': company, 'title': title,
                 'summary': summary, 'status': status, 'group': group, 'total': total, 'known': known,
                 'range': score.get('possible_range'), 'eligible': eligible, 'band': score.get('band', 'not scored'),
@@ -313,8 +368,8 @@ class Site:
                 'labels': LABELS, 'weights': weights,
                 'asOf': item.get('as_of_session', snapshot.get('as_of_session', '')),
                 'updated': item.get('last_research_updated_at', snapshot.get('created_at', '')),
-                'horizon': snapshot.get('horizon', ''), 'resolution': snapshot.get('resolution_date', ''),
-                'likelihood': snapshot.get('likelihood', {}).get('current', 'not estimable') if isinstance(snapshot.get('likelihood', {}), dict) else 'not estimable',
+                'horizon': horizon, 'resolution': resolution,
+                'likelihood': snapshot.get('likelihood', {}).get('display', snapshot.get('likelihood', {}).get('current', 'not estimable')) if isinstance(snapshot.get('likelihood', {}), dict) else 'not estimable',
                 'sourceUrl': source_url, 'sections': sections, 'searchText': markdown,
                 'markdownUrl': 'notes/' + quote(page.relative_to(self.source).as_posix(), safe='/'),
                 'staticUrl': static_path})

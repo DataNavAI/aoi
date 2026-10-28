@@ -46,6 +46,75 @@ class IdeaSiteTests(unittest.TestCase):
         self.assertTrue((self.output / idea['staticUrl']).is_file())
         self.assertTrue((self.output / idea['markdownUrl']).is_file())
 
+    def test_current_tldr_replaces_invalidated_thesis_and_labels_retained_probability(self):
+        self.fixture()
+        index_path = self.source / 'current-snapshot-index.json'
+        index = json.loads(index_path.read_text())
+        index[0]['snapshot'] = 'ideas/ONE/current.json'
+        index[0]['status'] = 'invalidated'
+        index_path.write_text(json.dumps(index))
+        (self.source / index[0]['snapshot']).write_text(json.dumps({
+            'thesis': 'The original licence will remain valid.',
+            'horizon': {'earliest_check':'2027-01', 'resolution':'2028-04-26'},
+            'tldr': {'idea': 'Invalidated: the essential licence was revoked.'},
+            'likelihood': {'current': 50, 'unit': 'percent', 'display': '50% prior estimate; current coverage incomplete'}
+        }))
+        site.build(self.source, self.output)
+        idea = self.data()['ideas'][0]
+        self.assertEqual(idea['summary'], 'Invalidated: the essential licence was revoked.')
+        self.assertEqual(idea['likelihood'], '50% prior estimate; current coverage incomplete')
+        self.assertEqual(idea['group'], 'closed')
+        self.assertEqual(idea['horizon'], 'Early check: 2027-01; Resolution: 2028-04-26')
+        self.assertEqual(idea['resolution'], '2028-04-26')
+
+    def test_nested_decision_window_renders_description_and_resolution(self):
+        self.fixture()
+        path = self.source / 'current-snapshot-index.json'
+        index = json.loads(path.read_text()); index[0]['snapshot'] = 'ideas/ONE/current.json'
+        path.write_text(json.dumps(index))
+        (self.source / index[0]['snapshot']).write_text(json.dumps({'horizon': {
+            'description':'Quarterly check within three months; resolution April 2028',
+            'decision_window': {'earliest_check':'Within three months', 'latest_resolution':'2028-04-28'}
+        }}))
+        site.build(self.source, self.output)
+        idea = self.data()['ideas'][0]
+        self.assertEqual(idea['horizon'], 'Quarterly check within three months; resolution April 2028')
+        self.assertEqual(idea['resolution'], '2028-04-28')
+
+    def test_downloaded_markdown_local_links_resolve_inside_site(self):
+        page = self.fixture()
+        (self.source / 'INDEX.md').write_text('# Library')
+        (page.parent / 'snapshot.json').write_text('{"idea_id":"ONE"}')
+        with page.open('a') as f:
+            f.write('\n[Home](../../INDEX.md) [Snapshot](snapshot.json)\n')
+        site.build(self.source, self.output)
+        note = self.output / self.data()['ideas'][0]['markdownUrl']
+        import re
+        from urllib.parse import unquote
+        for target in re.findall(r'\]\(([^)]+)\)', note.read_text()):
+            if '://' not in target and not target.startswith('#'):
+                path = (note.parent / unquote(target.split('#')[0])).resolve()
+                self.assertTrue(path.is_relative_to(self.output.resolve()))
+                self.assertTrue(path.is_file(), str(path))
+
+    def test_downloaded_snapshot_copies_nested_model_and_source_dependencies(self):
+        page = self.fixture()
+        (self.source / 'calculations').mkdir()
+        (self.source / 'sources').mkdir()
+        (self.source / 'sources/receipt.md').write_text('# Receipt')
+        (self.source / 'calculations/model.json').write_text(json.dumps({'source_path':'../sources/receipt.md#receipt'}))
+        (page.parent / 'v1.json').write_text(json.dumps({'scenarios': {'hypothetical': {'calculation':'../../calculations/model.json'}}, 'tldr': {'annual_return': {'hypothetical_calculation':'../../calculations/model.json'}}}))
+        with page.open('a') as handle:
+            handle.write('\n[Snapshot](v1.json)\n')
+        site.build(self.source, self.output)
+        snapshot = self.output / 'files/ideas/ONE/v1.json'
+        target = json.loads(snapshot.read_text())['scenarios']['hypothetical']['calculation']
+        model = (snapshot.parent / target).resolve()
+        self.assertTrue(model.is_file())
+        receipt = (model.parent / json.loads(model.read_text())['source_path'].split('#')[0]).resolve()
+        self.assertTrue(receipt.is_file())
+        self.assertTrue(receipt.is_relative_to(self.output.resolve()))
+
     def test_untrusted_content_and_links_are_inert(self):
         page = self.fixture()
         page.write_text('# </script><script>alert(1)</script>\n\n<img src=x onerror=alert(1)>\n\n[Bad](javascript:alert) [Malformed](https://[) [Remote](https://example.com/proof) [Encoded](%2e%2e/%2e%2e/%2e%2e/secret.txt)\n')
