@@ -13,7 +13,7 @@ Every AOI skill uses the shared [research contract](docs/research-contract.md). 
 
 Daily flow: discover → evaluate; update all tracked ideas → evaluate; review eligible past forecasts → evaluate; compose email → pre-send evaluation → authorized send → delivery verification. Discovery need not produce a new idea every day. Research and evaluation artifacts belong in a separate private data root.
 
-Before unattended use, configure the equity universe, investment constraints, data root, source access, market-data providers, benchmark/return conventions, reporting timezone, recipients, delivery authorization, and schedule. Missing research inputs remain explicit; missing delivery configuration leaves a complete draft. This repository does not install jobs, connect accounts, send messages, or trade.
+Before unattended use, configure the equity universe, investment constraints, data root, source access, market-data providers, benchmark/return conventions, reporting timezone, recipients, delivery authorization, and schedule. Missing research inputs remain explicit; missing delivery configuration leaves a complete draft. Skill definitions alone do not connect accounts, send messages, or trade. The daily research routine is scheduled separately in Codex.
 
 Idea discovery mines only Seeking Alpha’s latest trending analysis. It keeps article-ID history outside Git to avoid mining an analysis twice and scores ideas using a fixed evidence-linked rubric. Default local data root: `/Volumes/Agent/AOI-data`; training uses a separate declared ledger.
 
@@ -65,3 +65,20 @@ python3 scripts/build_idea_site.py --source research --output site
 
 See [publication and daily research setup](docs/github-pages.md) for the public export
 boundary, reusable deployment workflow and remaining daily research prerequisites.
+
+## Daily research routine
+
+Use [aoi-daily-research](skills/aoi-daily-research/SKILL.md) to research Seeking Alpha's
+latest trending analysis, update all ideas, review eligible past forecasts, independently
+evaluate frozen outputs, and push accepted public idea updates to `DataNavAI/aoi`.
+GitHub Actions then rebuilds and deploys Pages. Failed evaluation or incomplete source
+access cannot silently advance a successful research cutoff.
+
+The recurring Codex job runs in this conversation every day at **7:00 a.m. America/Los_Angeles**,
+including weekends. It uses `/Volumes/Agent/AOI-data` for private research and article
+history, and `/Volumes/Agent/AOI-runs` for isolated candidates and evaluation records.
+Keep the research computer on with Codex running and those paths available. Seeking Alpha
+may occasionally require interactive login or verification; affected work is reported
+as blocked while independent work continues. No additional API key is required for
+this Codex schedule. Email remains draft-only until delivery settings and authorization
+are supplied.

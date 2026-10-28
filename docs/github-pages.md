@@ -28,31 +28,32 @@ the exact accepted commit directly. This is necessary when the updater commits u
 `GITHUB_TOKEN`: such a push does not trigger another push workflow. Never assume that
 pushing with the Actions token alone redeploys Pages.
 
-## Daily research prerequisites
+## Daily research and publishing
 
-Publishing existing research needs no model key. New research needs an agent runtime,
-lawful source access and persistent article history. A GitHub-hosted runner cannot inherit
-a desktop Seeking Alpha session, and Actions alone does not perform investment research.
-The supported hosted Codex action needs the `OPENAI_API_KEY` repository secret (separate
-API usage), plus any approved research-source integrations. Do not upload desktop cookies,
-passwords or a Codex authentication directory. If Seeking Alpha requires sign-in or human
-verification, stop affected mining, preserve the prior successful cutoff and request
-interactive access. Do not substitute teasers or independently invented ideas.
+Research runs in the existing Codex conversation using
+[the daily routine](../skills/aoi-daily-research/SKILL.md), every day at **07:00
+America/Los_Angeles**, including weekends. It uses the current Codex environment;
+no GitHub-hosted model job or additional OpenAI API key is required. Keep the
+research computer on, the app running and its local data paths available.
 
-For subscription-dependent research, a dedicated self-hosted research runner with durable
-private state may be more practical. Pages deployment can still run on GitHub's hosted
-runners, and the website remains reachable when the research runner is offline.
+Private accepted research and durable article history stay in `/Volumes/Agent/AOI-data`.
+Dated candidates, source records and independent evaluations stay in `/Volumes/Agent/AOI-runs`.
+The routine mines accessible Seeking Alpha Trending Analysis, updates tracked ideas, reviews
+eligible forecasts, evaluates frozen candidates, and exports only accepted public pages
+to `research/`. It commits/pushes those changes to `DataNavAI/aoi` on `main`; Pages CI
+builds and deploys the corresponding commit. It verifies deployment before claiming
+that the new content is live. No empty daily commits or fabricated freshness dates.
 
-A daily pipeline must: load the prior durable ledger → perform develop/update/review →
-freeze candidate output → independently evaluate → publish only accepted research → push
-idea changes → invoke the reusable Pages workflow. Persist reading history even when an
-evaluation fails; do not rely on an expiring Actions cache as the only ledger. A failed
-research or evaluation run leaves the last successful website online. Keep research
-cutoffs distinct from build/deployment time. Sending email requires its separate delivery
-configuration and is not implied by a website publishing workflow.
+The user authorizes daily research and publication of accepted public idea updates.
+Credentials, browser sessions, source captures and private ledger data are never uploaded.
+A source-login or human-verification challenge is reported for user action; affected
+mining and its successful cutoff remain blocked. Independent research can continue.
+Failed evaluations preserve candidate history and prior accepted ideas. Article readings
+remain recorded even when publication fails.
+
+Scheduled execution uses the Codex automation facility, not a GitHub Actions cron.
+GitHub hosts the static site continuously; it remains reachable when the research
+computer is offline, but research runs require that computer and Codex to be available.
+Email is not sent until recipients and standing delivery authorization are configured.
 
 Repository: `DataNavAI/aoi`; published URL: `https://datanavai.github.io/aoi/`.
-
-Pending configuration: hosted API versus self-hosted research runtime, approved Seeking
-Alpha access method, durable private ledger location, daily time.
-No daily research schedule is enabled until these dependencies are configured.
